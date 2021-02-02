@@ -1,4 +1,4 @@
-package com.calderon.mymoney;
+package com.calderon.mymoney.utils;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

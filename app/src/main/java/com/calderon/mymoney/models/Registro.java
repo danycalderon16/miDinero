@@ -1,4 +1,4 @@
-package com.calderon.mymoney;
+package com.calderon.mymoney.models;
 
 public class Registro {
 
@@ -61,10 +61,10 @@ public class Registro {
     public String toString() {
         return "Registro" +
                 "\ntotal=" + total +
-                " \nfecha='" + fecha +
-                " \ncapital=" + capital +
-                " \nahorrado=" + ahorrado +
-                " \ninvertido=" + invertido ;
+                " | fecha='" + fecha +
+                " | capital=" + capital +
+                " | ahorrado=" + ahorrado +
+                " | invertido=" + invertido ;
     }
 
     public boolean isExpanded() {

@@ -1,45 +1,37 @@
-package com.calderon.mymoney;
+package com.calderon.mymoney.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import android.os.PersistableBundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import com.calderon.mymoney.R;
+import com.calderon.mymoney.adapters.Adaptador;
+import com.calderon.mymoney.models.Registro;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static com.calderon.mymoney.utils.Util.loadData;
+import static com.calderon.mymoney.utils.Util.saveData;
+import static com.calderon.mymoney.utils.Util.setDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -133,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         fecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDate(v.getContext(),fecha);
+                setDate(c,v.getContext(),fecha);
             }
         });
 
@@ -171,40 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static List<Registro> loadData(SharedPreferences preferences, List<Registro> reg) {
-        Gson gson = new Gson();
-        String json = preferences.getString("data" , null);
-        Type type = new TypeToken<ArrayList<Registro>>() {
-        }.getType();
-        reg = gson.fromJson(json, type);
-
-        if (reg == null)
-            reg = new ArrayList<>();
-        return  reg;
-
-    }
-
-    public static void saveData(SharedPreferences preferences, List<Registro> registros) {
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(registros);
-        editor.putString("data", json);
-        editor.apply();
-    }
-
-    public void setDate(Context context, final TextView textView){if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-        int dia = c.get(Calendar.DAY_OF_MONTH);
-        int mes = c.get(Calendar.MONTH);
-        int year = c.get(Calendar.YEAR);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int motnhOfYear, int dayOfMonth) {
-                textView.setText(String.format(Locale.getDefault(),"%d/%d/%d",dayOfMonth, motnhOfYear , year));
-            }
-        }, year, mes, dia);
-        datePickerDialog.show();
-    }}
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
@@ -214,7 +172,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_chart){
-            Intent intent = new Intent(this,ChartActivity.class);
+            Intent intent = new Intent(this, ChartActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId() == R.id.menu_cloud){
+            Intent intent = new Intent(this, SaveActivity.class);
             startActivity(intent);
         }
 

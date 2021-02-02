@@ -1,4 +1,4 @@
-package com.calderon.mymoney;
+package com.calderon.mymoney.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.calderon.mymoney.R;
+import com.calderon.mymoney.models.Registro;
 import com.google.gson.Gson;
 
 import java.util.List;

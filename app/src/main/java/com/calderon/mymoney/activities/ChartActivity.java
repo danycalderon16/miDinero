@@ -1,7 +1,6 @@
-package com.calderon.mymoney;
+package com.calderon.mymoney.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,12 +15,16 @@ import com.anychart.enums.Anchor;
 import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
+import com.calderon.mymoney.R;
+import com.calderon.mymoney.models.Registro;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.calderon.mymoney.utils.Util.loadData;
 
 public class ChartActivity extends AppCompatActivity {
 
@@ -76,17 +79,4 @@ public class ChartActivity extends AppCompatActivity {
         chartView.setChart(cartesian);
 
     }
-
-    public static List<Registro> loadData(SharedPreferences preferences, List<Registro> reg) {
-        Gson gson = new Gson();
-        String json = preferences.getString("data" , null);
-        Type type = new TypeToken<ArrayList<Registro>>() {
-        }.getType();
-        reg = gson.fromJson(json, type);
-
-        if (reg == null)
-            reg = new ArrayList<>();
-        return  reg;
-    }
-
 }

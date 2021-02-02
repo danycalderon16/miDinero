@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "860257530641",
+    "project_id": "app-mi-dinero",
+    "storage_bucket": "app-mi-dinero.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860257530641:android:c5e98ab5818da11a5cd2b0",
+        "android_client_info": {
+          "package_name": "com.calderon.mymoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860257530641-tnrjb1og3ei6002pa5ghc5r9fafgjdem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.calderon.mymoney",
+            "certificate_hash": "e14b7640d2bafe3de27f5b8c0e9195740d5c6c7c"
+          }
+        },
+        {
+          "client_id": "860257530641-cqhsu01b0tbj05jq60l8367jpbp115pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqCRmo5eHdgUIQjmbHxdgGlYSKuVHUyBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860257530641-cqhsu01b0tbj05jq60l8367jpbp115pm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

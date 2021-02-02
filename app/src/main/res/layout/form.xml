@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_margin="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Fecha"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fFecha"
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_margin="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:text="Capital"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:textSize="20sp"
+        android:id="@+id/fCap"
+        android:inputType="numberDecimal"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+
+        />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Invertido"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <EditText
+            android:textSize="20sp"
+            android:layout_width="0dp"
+            android:id="@+id/fInvertido"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:layout_weight=".5"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_margin="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight=".5"
+        android:text="Ahorrado"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:id="@+id/fAhorrado"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:inputType="numberDecimal"
+
+        />
+</LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_margin="2dp"
+        android:textSize="20sp"
+        android:id="@+id/fAdd"
+        android:text="Agregar"
+        android:background="@color/blue_primary_dark"
+        />
+</LinearLayout>

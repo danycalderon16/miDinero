@@ -14,4 +14,12 @@
         android:title="Guardar"
         android:icon="@drawable/cloud"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/salir"
+        android:orderInCategory="60"
+        android:title="Guardar"
+        android:icon="@android:drawable/star_on"
+        app:showAsAction="always"/>
+
+
 </menu>

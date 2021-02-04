@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.calderon.mymoney.LoginActivity;
 import com.calderon.mymoney.R;
 import com.calderon.mymoney.adapters.Adaptador;
 import com.calderon.mymoney.models.Registro;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 import java.util.List;
@@ -48,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
 
     private int click = 0;
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         preferences = getSharedPreferences("DATA",MODE_PRIVATE);
         sendBind();
@@ -178,6 +199,18 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.menu_cloud){
             Intent intent = new Intent(this, SaveActivity.class);
             startActivity(intent);
+        }
+        if(item.getItemId() == R.id.salir){
+            mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    mAuth.signOut();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+//                    Log.i("$$$$$$$$$$$$$1",mAuth.getCurrentUser().getDisplayName()+" "+mAuth.getCurrentUser().getEmail());
+                }
+            });
+
         }
 
         return super.onOptionsItemSelected(item);

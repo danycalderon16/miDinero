@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.calderon.mymoney.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -31,34 +32,29 @@ import static com.calderon.mymoney.utils.Util.loadData;
 
 public class SaveActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView multi;
+    private Toolbar toolbar;
     private FloatingActionButton fab;
     private List<Registro> list;
     private SharedPreferences preferences;
 
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     private String text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sendBind();
         setSupportActionBar(toolbar);
 
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
         preferences = getSharedPreferences("DATA",MODE_PRIVATE);
-       fab = findViewById(R.id.fab);
-        fab.setOnClickListener(this);
 
-        multi = findViewById(R.id.editTextTextMultiLine);
         list = loadData(preferences,list);
 
-        for (Registro registro : list) {
-            text += registro.toString()+"\n";
-        }
-        multi.setText(text);
     }
 
     @Override
@@ -68,8 +64,13 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void sendBind(){
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+    }
+
     private void addNewItem() {
-        boolean flag = false;
         int i = list.size()-1;
 
         String id = list.get(i).getFecha()+"";
@@ -104,7 +105,9 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
                 id_doc.append(dia);
 
 
-            db.collection("backup")
+            db.collection("usuarios")
+                    .document(mAuth.getCurrentUser().getUid())
+                    .collection("backup")
                     .document(id_collection)
                     .collection("registros")
                     .document(id_doc+"")

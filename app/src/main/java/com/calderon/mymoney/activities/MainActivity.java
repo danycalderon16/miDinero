@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.calderon.mymoney.LoginActivity;
 import com.calderon.mymoney.R;
 import com.calderon.mymoney.adapters.Adaptador;
 import com.calderon.mymoney.models.Registro;
@@ -210,9 +208,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Log.i("$$$$$$$$$$$$$1",mAuth.getCurrentUser().getDisplayName()+" "+mAuth.getCurrentUser().getEmail());
                 }
             });
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

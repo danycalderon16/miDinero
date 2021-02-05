@@ -6,7 +6,7 @@
         android:id="@+id/menu_chart"
         android:orderInCategory="100"
         android:title="chart"
-        android:icon="@android:drawable/ic_media_next"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_cloud"
@@ -18,7 +18,7 @@
         android:id="@+id/salir"
         android:orderInCategory="60"
         android:title="Guardar"
-        android:icon="@android:drawable/star_on"
+        android:icon="@drawable/ic_baseline_person_24"
         app:showAsAction="always"/>
 
 

@@ -9,6 +9,8 @@ public class Registro {
     private float invertido;
     private boolean expanded;
 
+    public Registro(){}
+
     public Registro(float total, String fecha, float capital, float ahorrado, float invertido) {
         this.total = total;
         this.fecha = fecha;

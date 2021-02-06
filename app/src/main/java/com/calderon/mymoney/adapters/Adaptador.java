@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.calderon.mymoney.utils.Util.lagerMonth;
 
 public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
@@ -148,53 +149,5 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
                     return false;
             }
         }
-
     }
-
-    private String lagerMonth(Registro registro) {
-        String c;
-        String f[] = registro.getFecha().split("/");
-        switch (f[1]) {
-            case "1":
-                c ="Enero";
-                break;
-            case "2":
-                c= "Febrero";
-                break;
-            case "3":
-                c= "Marzo";
-                break;
-            case "4":
-                c= "Abril";
-                break;
-            case "5":
-                c= "Mayo";
-                break;
-            case "6":
-                c= "Junio";
-                break;
-            case "7":
-                c= "Julio";
-                break;
-            case "8":
-                c= "Agosto";
-                break;
-            case "9":
-                c= "Septiembre";
-                break;
-            case "10":
-                c= "Octubre";
-                break;
-            case "11":
-                c= "Noviembre";
-                break;
-            case "12":
-                c= "Diciembre";
-                break;
-            default:
-                return "";
-        }
-        return  c;
-    }
-
 }

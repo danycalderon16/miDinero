@@ -64,4 +64,6 @@ public class SaveAdapter extends FirestoreRecyclerAdapter<Registro,SaveAdapter.V
     public interface  OnItemClickListener{
         void onItemClick(Registro registro, int position,String id);
     }
+
+
 }

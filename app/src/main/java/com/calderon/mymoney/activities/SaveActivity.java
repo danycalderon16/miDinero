@@ -1,6 +1,7 @@
 package com.calderon.mymoney.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -103,10 +104,8 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         saveAdapter = new SaveAdapter(options, new SaveAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Registro registro, int position,String id) {
-                Toast.makeText(SaveActivity.this,registro.toString(),Toast.LENGTH_SHORT).show();
-                Log.i("$$$$$$$$$$$4",id);
-                //saveData(preferences2,list);
-                getDataFromFS(id);
+                showConfirmDeleteDiaglog(id);
+                //
             }
         }, SaveActivity.this);
 
@@ -114,6 +113,28 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(saveAdapter);
 
+    }
+
+    public void showConfirmDeleteDiaglog(final String id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SaveActivity.this);
+        builder.setCancelable(true);
+        builder.setMessage("¿Desea restaurar esta copia?");
+        builder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getDataFromFS(id);
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(SaveActivity.this, "Restauración cancelada", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void getDataFromFS(String id) {
@@ -144,6 +165,12 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
                             );
                         }
                         saveData(preferences,list_data);
+                        Toast.makeText(SaveActivity.this, "Copia restaurada", Toast.LENGTH_SHORT).show();
+                        Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                                  getBaseContext().getPackageName() );
+                        intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
                 });
     }

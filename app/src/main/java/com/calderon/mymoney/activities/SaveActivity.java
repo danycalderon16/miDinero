@@ -1,5 +1,6 @@
 package com.calderon.mymoney.activities;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,24 +30,30 @@ import com.calderon.mymoney.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.calderon.mymoney.utils.Util.loadData;
+import static com.calderon.mymoney.utils.Util.saveData;
 
 public class SaveActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private List<Registro> list;
+    private List<Registro> list_data;
     private RecyclerView recyclerView;
     private SaveAdapter saveAdapter;
 
-    private SharedPreferences preferences;
+    private SharedPreferences preferences,preferences2;
 
     private FirebaseFirestore db;
     private CollectionReference usersRef;
@@ -59,6 +67,8 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         preferences = getSharedPreferences("DATA",MODE_PRIVATE);
+
+        preferences2 = getSharedPreferences("DATA_2",MODE_PRIVATE);
 
         sendBind();
         sendRecyclerView();
@@ -92,9 +102,11 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
 
         saveAdapter = new SaveAdapter(options, new SaveAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Registro registro, int position) {
+            public void onItemClick(Registro registro, int position,String id) {
                 Toast.makeText(SaveActivity.this,registro.toString(),Toast.LENGTH_SHORT).show();
-                Log.i("$$$$$$$$$$$4",registro.toString());
+                Log.i("$$$$$$$$$$$4",id);
+                //saveData(preferences2,list);
+                getDataFromFS(id);
             }
         }, SaveActivity.this);
 
@@ -102,6 +114,38 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(saveAdapter);
 
+    }
+
+    private void getDataFromFS(String id) {
+        Task<QuerySnapshot> data = db.collection("usuarios")
+                .document(mAuth.getCurrentUser().getUid())
+                .collection("backup")
+                .document(id)
+                .collection("registros")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> documentSnapshotList = task.getResult().getDocuments();
+                        list_data = new ArrayList<>();
+                        for (DocumentSnapshot documentSnapshot : documentSnapshotList) {
+                            String total = String.format(Locale.getDefault(),"%.2f",documentSnapshot.getDouble("total"));
+                            String capital = String.format(Locale.getDefault(),"%.2f",documentSnapshot.getDouble("capital"));
+                            String ahorrado = String.format(Locale.getDefault(),"%.2f",documentSnapshot.getDouble("ahorrado"));
+                            String invertido = String.format(Locale.getDefault(),"%.2f",documentSnapshot.getDouble("invertido"));
+                            Log.i("###########3333",total+"\n"+capital+"\n"+ahorrado+"\n"+invertido);
+                            list_data.add(new Registro(
+                                    Float.parseFloat(total),
+                                    documentSnapshot.getString("fecha"),
+                                    Float.parseFloat(capital),
+                                    Float.parseFloat(ahorrado),
+                                    Float.parseFloat(invertido)
+                               )
+                            );
+                        }
+                        saveData(preferences,list_data);
+                    }
+                });
     }
 
     @Override

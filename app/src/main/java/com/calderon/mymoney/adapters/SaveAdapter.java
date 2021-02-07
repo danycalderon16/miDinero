@@ -37,7 +37,7 @@ public class SaveAdapter extends FirestoreRecyclerAdapter<Registro,SaveAdapter.V
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick(registro,i);
+                listener.onItemClick(registro,i,getSnapshots().getSnapshot(i).getId());
             }
         });
     }
@@ -62,6 +62,6 @@ public class SaveAdapter extends FirestoreRecyclerAdapter<Registro,SaveAdapter.V
     }
 
     public interface  OnItemClickListener{
-        void onItemClick(Registro registro, int position);
+        void onItemClick(Registro registro, int position,String id);
     }
 }

@@ -25,6 +25,13 @@ public class Util {
         editor.putString("data", json);
         editor.apply();
     }
+    public static void saveData_t(SharedPreferences preferences, List<Registro> registros) {
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(registros);
+        editor.putString("data", json);
+        editor.apply();
+    }
 
     public static List<Registro> loadData(SharedPreferences preferences, List<Registro> reg) {
         Gson gson = new Gson();

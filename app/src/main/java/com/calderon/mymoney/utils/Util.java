@@ -51,7 +51,7 @@ public class Util {
             DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int motnhOfYear, int dayOfMonth) {
-                    textView.setText(String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, motnhOfYear, year));
+                    textView.setText(String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, motnhOfYear+1, year));
                 }
             }, year, mes, dia);
             datePickerDialog.show();

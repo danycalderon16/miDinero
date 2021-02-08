@@ -72,9 +72,9 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.fab){
+        if(view.getId() == R.id.fab)
             addNewItem();
-        }
+
     }
 
     private void sendRecyclerView(){
@@ -83,7 +83,7 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
                 .collection("backup");
 
         Log.i("$$$$$$$$$$$4",mAuth.getCurrentUser().getUid());
-        Query query = usersRef;
+        Query query = usersRef.orderBy("id",Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Registro> options =
                 new FirestoreRecyclerOptions.Builder<Registro>()
@@ -223,6 +223,11 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
         else
             id_col.append(dia_col);
 
+        String id_fs =   db.collection("usuarios")
+                .document(mAuth.getCurrentUser().getUid())
+                .collection("backup")
+                .document().getId();
+
         for (Registro registro : list) {
 
             Map<String, Object> map = new HashMap<>();
@@ -231,6 +236,7 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
             map.put("ahorrado", registro.getAhorrado());
             map.put("capital", registro.getCapital());
             map.put("invertido", registro.getInvertido());
+            map.put("id",id_col+"");
 
             String doc = registro.getFecha()+"";
             String fecha[] = doc.split("/");
@@ -254,7 +260,7 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
                 db.collection("usuarios")
                         .document(mAuth.getCurrentUser().getUid())
                         .collection("backup")
-                        .document(id_col + "")
+                        .document(id_fs)
                         .set(map);
                 Log.i("$$$$$$$$$$$4",registro.toString());
             }
@@ -262,7 +268,7 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
             db.collection("usuarios")
                     .document(mAuth.getCurrentUser().getUid())
                     .collection("backup")
-                    .document(id_col+"")
+                    .document(id_fs)
                     .collection("registros")
                     .document(id_doc+"")
                     .set(map);

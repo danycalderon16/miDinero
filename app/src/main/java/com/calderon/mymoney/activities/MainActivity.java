@@ -1,6 +1,7 @@
 package com.calderon.mymoney.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -199,17 +200,44 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if(item.getItemId() == R.id.salir){
-            mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    mAuth.signOut();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-//                    Log.i("$$$$$$$$$$$$$1",mAuth.getCurrentUser().getDisplayName()+" "+mAuth.getCurrentUser().getEmail());
-                }
-            });
+            showConfirmLogOutDiaglog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showConfirmLogOutDiaglog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(true);
+        builder.setMessage("¿Desea cerrar sesión?");
+        builder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void logout() {
+        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mAuth.signOut();
+                preferences.edit().clear().commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
     }
 }
 

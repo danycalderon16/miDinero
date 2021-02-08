@@ -9,8 +9,6 @@ import com.calderon.mymoney.adapters.SaveAdapter;
 import com.calderon.mymoney.models.Registro;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,14 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.calderon.mymoney.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -54,7 +51,7 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private SaveAdapter saveAdapter;
 
-    private SharedPreferences preferences,preferences2;
+    private SharedPreferences preferences;
 
     private FirebaseFirestore db;
     private CollectionReference usersRef;
@@ -64,19 +61,13 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
-
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         preferences = getSharedPreferences("DATA",MODE_PRIVATE);
-
-        preferences2 = getSharedPreferences("DATA_2",MODE_PRIVATE);
-
         sendBind();
+        setToolbar();
         sendRecyclerView();
-        setSupportActionBar(toolbar);
-
         list = loadData(preferences,list);
-
     }
 
     @Override
@@ -188,10 +179,28 @@ public class SaveActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendBind(){
-        toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        toolbar = findViewById(R.id.toolbar_save);
         recyclerView = findViewById(R.id.rv_saved);
+    }
+
+    private void setToolbar() {
+        toolbar.setTitle("Copias de seguridad");
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void addNewItem() {

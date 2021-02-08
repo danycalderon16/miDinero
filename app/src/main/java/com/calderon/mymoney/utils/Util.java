@@ -2,10 +2,15 @@ package com.calderon.mymoney.utils;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.calderon.mymoney.activities.SaveActivity;
 import com.calderon.mymoney.models.Registro;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,13 +24,6 @@ import java.util.Locale;
 public class Util {
 
     public static void saveData(SharedPreferences preferences, List<Registro> registros) {
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(registros);
-        editor.putString("data", json);
-        editor.apply();
-    }
-    public static void saveData_t(SharedPreferences preferences, List<Registro> registros) {
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(registros);
@@ -105,4 +103,5 @@ public class Util {
         }
         return  c;
     }
+
 }
